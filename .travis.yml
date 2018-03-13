@@ -4,8 +4,8 @@ deploy:
   provider: heroku
   api_key:
     secure: XRdi4s7Yh2qvk84HVP7oTuR6rmiAjap++KNI9IYGq4ECUFLzTgzjaMee1NSd75RiI74nIaAmp+Qgg8PwE3cbgwo0esyUFdCh+0vqM5ZRt/n1tyKNhlyL34fJT1tQBlpBYXyaFttBV2yGFMlppmyhl5VOH3X0rJs9cYIVHZXDiDkGzJuYJEgU4d5e45Io+LgTxv5RUr9FYs9+TtoCs8oKwBC+7GQfV/OH74tOtAwou+jtslflQj1BOn53vNWaQwH6YGGIyyOfrDCO1pdmZTFwe2qkQZLEKH3sdcTimC3rnfqmXe1JqnB2FPTh+atbDA9cyQN9dVKrI8Q4aohXq+uZhOAPlImeQBYOhcWZcUE0em9mT3OHRqyyAqAVS1v0fk0P05TWY4oKmfHUw7DpR3HgSJaYX2Vd+bukRaUiyHyBGY1nn0If1t6RU4CtVjnf/tvxBtS3mMbRILT0LXtCVWJx1JAPkja7cLjc9q8XMjdbUSFPbtSMDQ+EkgYxNe2d9fH55YUlm8jXzGgJKFTRC1vf2vAOTcLEsBw06a1Yd1uki7Eguj7dJ0VRsb6fQ/fo/T1+ATmO7o1YodQ7tJnKf41dRzx5rwncq7VklwyS6ZScEHigTeniMfTLEBchuwZtcRfYgk1XJ6xMxQnVwg3N+o71s90kWgQPGFwZlumZWkB/GEU=
-  app: murmuring-thicket-55410
+  app: gym-tracker-server
   on:
-    repo: abandisch/gym-tracker-app
+    repo: abandisch/gym-tracker-server
 services:
 - mongodb
