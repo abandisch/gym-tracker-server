@@ -6,6 +6,7 @@ const express = require('express');
 const morgan = require('morgan');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cors = require('cors');
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -30,8 +31,8 @@ app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/views/index.html`);
 });
 
-// Handle /gym-tracker route
-app.use('/gym-tracker', gymTrackerRouter);
+// Handle /gym-tracker API route, and allow all CORS requests
+app.use('/gym-tracker', cors(), gymTrackerRouter);
 
 // Start / Stop Server
 let server;
