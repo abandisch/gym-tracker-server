@@ -23,14 +23,6 @@ const gymTrackerRouter = require('./routers/gymTrackerRouter');
 // Logs
 app.use(morgan('tiny'));
 
-// Static files
-app.use(express.static('public'));
-
-// Home page
-app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/views/index.html`);
-});
-
 // Handle /gym-tracker API route, and allow all CORS requests
 app.use('/gym-tracker', cors(), gymTrackerRouter);
 
