@@ -21,6 +21,27 @@ const createAuthToken = function(gymGoer) {
 const jwtAuth = passport.authenticate('jwt', { session: false });
 const localAuth = passport.authenticate('local', {session: false});
 
+router.get('/:id', [cookieParser(), jwtAuth], (req, res) => {
+  GymGoerModel
+    .findById(req.params.id)
+    .then(gymGoer => {
+      if (gymGoer) {
+        res.status(200).json(gymGoer.serializeAll());
+      } else {
+        console.error(`Cannot GET gym goer. Invalid id supplied (${req.params.id})`);
+        res.status(400).json({ error: 'Invalid id supplied' });
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        console.error(`Cannot GET gym goer. Invalid id supplied (${req.params.id})`);
+        res.status(400).json({ error: 'Invalid id supplied' });
+      }
+      console.error('ERROR:', err);
+      res.status(500).json({message: 'Internal Server Error'});
+    });
+});
+
 // Add new exercise to sessionType
 router.post('/exercises', [cookieParser(), jsonParser, jwtAuth], (req, res) => {
   const {id: gymGoerID} = req.user;
