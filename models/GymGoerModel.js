@@ -30,7 +30,7 @@ const gymGoerSchema = mongoose.Schema({
     programId: {
       type: String
     },
-    name: {
+    programName: {
       type: String
     }
   }
@@ -65,7 +65,11 @@ gymGoerExercisesSchema.methods.serialize = function () {
 gymGoerSchema.methods.serializeAll = function() {
   return {
     id: this._id,
-    email: this.email
+    email: this.email,
+    strengthTracker: {
+      programId: this.strengthTracker.programId,
+      programName: this.strengthTracker.programName
+    }
   };
 };
 
@@ -100,6 +104,23 @@ gymGoerSchema.statics.createGymGoer = function (email) {
 
   return validateParameters([email], 'Email is required')
     .then(() => GymGoerModel.create(newGymGoer))
+    .then(gymGoer => gymGoer.serializeAll());
+};
+
+/**
+ * Add Strength Tracker Program Id and Name to GymGoer
+ * @param {string} email - Email of the Gym Goer
+ * @returns {Promise|null} - Promise containing the created GymGoer
+ */
+gymGoerSchema.statics.addStrengthTrackerProgram = function (gymGoerId, programId, programName) {
+  const strengthTracker = { programId, programName };
+
+  return validateParameters([programId, programName], 'Program id and name are required')
+    .then(() => GymGoerModel.findOneAndUpdate(
+      { "_id": gymGoerId },
+      { $set: { strengthTracker: { programId, programName } } },
+      { 'new': true }
+    ))
     .then(gymGoer => gymGoer.serializeAll());
 };
 

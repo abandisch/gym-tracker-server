@@ -609,7 +609,7 @@ describe('# GymGoerModel', function () {
       return createTestGymGoer(TEST_EMAIL)
         .then(gymGoer => {
           expect(gymGoer).to.be.an.instanceOf(Object);
-          expect(gymGoer).to.have.keys(['id', 'email']);
+          expect(gymGoer).to.have.keys(['id', 'email', 'strengthTracker']);
         });
     });
 
@@ -634,7 +634,7 @@ describe('# GymGoerModel', function () {
         .then(() => findTestGymGoer(TEST_EMAIL))
         .then(gymGoer => {
           expect(gymGoer).to.be.an.instanceOf(Object);
-          expect(gymGoer).to.have.keys(['id', 'email']);
+          expect(gymGoer).to.have.keys(['id', 'email', 'strengthTracker']);
         });
     });
   });
