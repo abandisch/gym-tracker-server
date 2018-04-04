@@ -25,6 +25,14 @@ const gymGoerSchema = mongoose.Schema({
           required: true,
           index: true,
           unique: true
+  },
+  strengthTracker: {
+    programId: {
+      type: String
+    },
+    name: {
+      type: String
+    }
   }
 });
 

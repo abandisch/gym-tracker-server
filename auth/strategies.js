@@ -24,19 +24,10 @@ const localStrategy = new LocalStrategy({usernameField: 'email'},(email, passwor
       });
 });
 
-const JWTExtractFromCookie = function(req) {
-  let token = null;
-  if (req && req.cookies.gymGoer) {
-    const cookie = JSON.parse(req.cookies.gymGoer);
-    token = cookie.jwt_token;
-  }
-  return token;
-};
-
 const jwtStrategy = new JwtStrategy(
   {
     secretOrKey: JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromExtractors([JWTExtractFromCookie]),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     algorithms: ['HS256']
   },
   (payload, done) => {

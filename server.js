@@ -19,12 +19,16 @@ passport.use(jwtStrategy);
 
 // Router
 const gymTrackerRouter = require('./routers/gymTrackerRouter');
+const strengthTrackerRouter = require('./routers/strengthTrackerRouter');
 
 // Logs
 app.use(morgan('tiny'));
 
 // Handle /gym-tracker API route, and allow all CORS requests
 app.use('/gym-tracker', cors(), gymTrackerRouter);
+
+// Handle the /str-trckr API route (for the Strength Tracker)
+app.use('/strength-tracker', cors(), strengthTrackerRouter);
 
 // Start / Stop Server
 let server;

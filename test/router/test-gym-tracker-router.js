@@ -14,22 +14,18 @@ chai.use(chaiHttp);
 
 const BASE_API_URL = '/gym-tracker';
 const TEST_EMAIL = 'alex@bandisch.com';
-const COOKIE_NAME = 'gymGoer';
 
 const createTestGymGoer = (email) => {
   return GymGoerModel.createGymGoer(email);
 };
-const createCookieData = (gymGoerId = '5a8409c307a3b762ac1a6ba4') => {
+const createJwtToken = (gymGoerId = '5a8409c307a3b762ac1a6ba4') => {
   const gymGoer = { id: gymGoerId, email: TEST_EMAIL };
   const jwtAuthToken = jwt.sign({gymGoer}, JWT_SECRET, {
     subject: TEST_EMAIL,
     expiresIn: JWT_EXPIRY,
     algorithm: 'HS256'
   });
-  return JSON.stringify({
-    email: TEST_EMAIL,
-    jwt_token: jwtAuthToken
-  });
+  return jwtAuthToken;
 };
 const addTestExercise = (gymGoerId, sessionType, sessionDate, exerciseName, sets = []) => {
   return GymGoerExercisesModel.create({
@@ -79,8 +75,7 @@ describe('# gymTrackerRouter', function () {
       const ISODateToday = new Date().toISOString().slice(0, 10);
       return chai.request(app)
         .post(`${BASE_API_URL}/exercises/${TEST_TRAINING_SESSION}/${ISODateToday}`)
-        // .send({sessionType: TEST_TRAINING_SESSION})
-        .set('Cookie', `${COOKIE_NAME}=${createCookieData()}`)
+        .set('Authorization', `Bearer ${createJwtToken()}`)
         .then(res => {
           expect(res).status(200);
           expect(res.body).to.have.keys(['sessionType', 'sessionDate', 'exercises']);
@@ -93,7 +88,7 @@ describe('# gymTrackerRouter', function () {
       const badISODateFormat = 'i-am-a-bad-date';
       return chai.request(app)
         .post(`${BASE_API_URL}/exercises/${TEST_TRAINING_SESSION}/${badISODateFormat}`)
-        .set('Cookie', `${COOKIE_NAME}=${createCookieData()}`)
+        .set('Authorization', `Bearer ${createJwtToken()}`)
         .catch(res => {
           expect(res).status(400);
         });
@@ -111,7 +106,7 @@ describe('# gymTrackerRouter', function () {
           return chai.request(app)
             .post(`${BASE_API_URL}/exercises`)
             .send({sessionType: TEST_SESSION_TYPE, exerciseName: TEST_EXERCISE_NAME})
-            .set('Cookie', `${COOKIE_NAME}=${createCookieData(gymGoer.id)}`)
+            .set('Authorization', `Bearer ${createJwtToken()}`)
             .then(res => {
               expect(res).status(201);
               expect(res.body).to.have.keys(['sessionType', 'sessionDate', 'exercises']);
@@ -137,8 +132,8 @@ describe('# gymTrackerRouter', function () {
         .then(() => {
           return chai.request(app)
             .post(`${BASE_API_URL}/exercises/sets`)
+            .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
             .send({sessionType: TEST_SESSION_TYPE, exerciseName: TEST_EXERCISE_NAME, newSet: TEST_SET})
-            .set('Cookie', `${COOKIE_NAME}=${createCookieData(gymGoer.id)}`)
             .then(res => {
               expect(res).status(201);
               expect(res.body).to.have.keys(['sessionType', 'sessionDate', 'exercises']);
@@ -169,7 +164,7 @@ describe('# gymTrackerRouter', function () {
           return chai.request(app)
             .delete(`${BASE_API_URL}/exercises/sets/${exerciseSetId}`)
             .send({sessionType: TEST_SESSION_TYPE})
-            .set('Cookie', `${COOKIE_NAME}=${createCookieData(gymGoer.id)}`)
+            .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
             .then(res => {
               expect(res).status(200);
             });
@@ -194,7 +189,7 @@ describe('# gymTrackerRouter', function () {
           return chai.request(app)
             .put(`${BASE_API_URL}/exercises/sets/${exerciseSetId}`)
             .send({updatedSet: UPDATED_TEST_SET, sessionType: TEST_SESSION_TYPE})
-            .set('Cookie', `${COOKIE_NAME}=${createCookieData(gymGoer.id)}`)
+            .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
             .then(res => {
               expect(res).status(200);
             });
