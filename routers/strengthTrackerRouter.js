@@ -15,17 +15,17 @@ router.put('/programs/:programId', [jsonParser, jwtAuth], (req, res) => {
     return res.status(400).json({error: msg});
   });
 
-  routerUtils.confirmRequiredProperties(req.body, ['programName'], (msg) => {
+  routerUtils.confirmRequiredProperties(req.body, ['programName', 'dateStarted'], (msg) => {
     console.error(msg);
     return res.status(400).json({error: msg});
   });
 
   const { id: gymGoerId } = req.user;
-  const { programName } = req.body;
+  const { programName, dateStarted } = req.body;
   const { programId } = req.params;
 
   GymGoerModel
-    .addStrengthTrackerProgram(gymGoerId, programId, programName)
+    .addStrengthTrackerProgram(gymGoerId, programId, programName, dateStarted)
     .then(() => res.status(204).end());
 });
 

@@ -32,6 +32,9 @@ const gymGoerSchema = mongoose.Schema({
     },
     programName: {
       type: String
+    },
+    programStartDate: {
+      type: String
     }
   }
 });
@@ -112,13 +115,13 @@ gymGoerSchema.statics.createGymGoer = function (email) {
  * @param {string} email - Email of the Gym Goer
  * @returns {Promise|null} - Promise containing the created GymGoer
  */
-gymGoerSchema.statics.addStrengthTrackerProgram = function (gymGoerId, programId, programName) {
+gymGoerSchema.statics.addStrengthTrackerProgram = function (gymGoerId, programId, programName, programStartDate) {
   const strengthTracker = { programId, programName };
 
   return validateParameters([programId, programName], 'Program id and name are required')
     .then(() => GymGoerModel.findOneAndUpdate(
       { "_id": gymGoerId },
-      { $set: { strengthTracker: { programId, programName } } },
+      { $set: { strengthTracker: { programId, programName, programStartDate } } },
       { 'new': true }
     ))
     .then(gymGoer => gymGoer.serializeAll());

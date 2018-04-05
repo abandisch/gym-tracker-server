@@ -54,12 +54,13 @@ describe('# strengthTrackerRouter', function () {
       let gymGoer;
       const TEST_PROGRAM_ID = '2d997e82';
       const TEST_PROGRAM_NAME = 'test gym workout';
+      const TEST_PROGRAM_START_DATE = new Date().toISOString().split('T')[0];
       return createTestGymGoer(TEST_EMAIL)
         .then(_gymGoer => gymGoer = _gymGoer)
         .then(() => {
           return chai.request(app)
             .put(`${BASE_API_URL}/programs/${TEST_PROGRAM_ID}`)
-            .send({programName: TEST_PROGRAM_NAME})
+            .send({programName: TEST_PROGRAM_NAME, dateStarted: TEST_PROGRAM_START_DATE})
             .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
             .then(res => {
               expect(res).status(204);
