@@ -49,21 +49,56 @@ describe('# strengthTrackerRouter', function () {
     return mongoose.connection.dropDatabase();
   });
 
-  describe('# strengthTrackerRouter: PUT: /strength-tracker/programs/:id', function () {
-    it('should update the gymgoer with the chosen program id and name', function () {
+  describe('# strengthTrackerRouter', function () {
+    describe('# PUT: /strength-tracker/programs/:id', function() {
+      it('should update the gymgoer with the chosen program id and name', function () {
+        let gymGoer;
+        const TEST_PROGRAM_ID = '2d997e82';
+        const TEST_PROGRAM_NAME = 'test gym workout';
+        const TEST_PROGRAM_START_DATE = new Date().toISOString().split('T')[0];
+        return createTestGymGoer(TEST_EMAIL)
+          .then(_gymGoer => gymGoer = _gymGoer)
+          .then(() => {
+            return chai.request(app)
+              .put(`${BASE_API_URL}/programs/${TEST_PROGRAM_ID}`)
+              .send({programName: TEST_PROGRAM_NAME, dateStarted: TEST_PROGRAM_START_DATE})
+              .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
+              .then(res => {
+                expect(res).status(204);
+              });
+          })
+      });
+    });
+  });
+
+  describe('# POST: /strength-tracker/exercises/sets', function() {
+    it('should add a new exercise set and create the exercise id if its not already there', function() {
       let gymGoer;
       const TEST_PROGRAM_ID = '2d997e82';
-      const TEST_PROGRAM_NAME = 'test gym workout';
-      const TEST_PROGRAM_START_DATE = new Date().toISOString().split('T')[0];
+      const TEST_EXERCISE_ID = '12312412f';
+      const TEST_WEIGHT = '40';
+      const TEST_REPS = '20';
+      let jwt;
+      
       return createTestGymGoer(TEST_EMAIL)
-        .then(_gymGoer => gymGoer = _gymGoer)
+        .then(_gymGoer => {
+          gymGoer = _gymGoer;
+          jwt = createJwtToken(gymGoer.id);
+        })
         .then(() => {
           return chai.request(app)
-            .put(`${BASE_API_URL}/programs/${TEST_PROGRAM_ID}`)
-            .send({programName: TEST_PROGRAM_NAME, dateStarted: TEST_PROGRAM_START_DATE})
-            .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
-            .then(res => {
-              expect(res).status(204);
+            .post(`${BASE_API_URL}/exercises/sets`)
+            .send({
+              programId: TEST_PROGRAM_ID, 
+              exerciseId: TEST_EXERCISE_ID, 
+              weight: TEST_WEIGHT,
+              reps: TEST_REPS
+            })
+            .set('Authorization', `Bearer ${jwt}`)
+            .then(res => { 
+              expect(res).status(201);
+              expect(res.body).to.have.keys(['id', 'gymGoerId', 'strTrkProgramId', 'strTrkExerciseId', 'sets']);
+              expect(res.body.sets.length).to.equal(1);
             });
         })
     });

@@ -29,4 +29,24 @@ router.put('/programs/:programId', [jsonParser, jwtAuth], (req, res) => {
     .then(() => res.status(204).end());
 });
 
+// Add new set to exercise
+router.post('/exercises/sets', [jsonParser, jwtAuth], (req, res) => {
+
+  routerUtils.confirmRequiredProperties(req.body, ['programId', 'exerciseId', 'weight', 'reps'], (msg) => {
+    console.error(msg);
+    return res.status(400).json({error: msg});
+  });
+
+  const {id: gymGoerID} = req.user;
+  const {programId, exerciseId, weight, reps} = req.body;
+
+  StrengthTrackerExerciseModel // TODO: Write addNewSet for the StrengthTrackerExerciseModel. Save the exerciseId, weight, and reps and calcualte the setNumber
+    .addExerciseSet(gymGoerID, programId, exerciseId, { weight, reps })
+    .then(updatedExercise => res.status(201).json(updatedExercise))
+    .catch(err => {
+      console.error('Error adding new set: ', err);
+    })
+
+});
+
 module.exports = router;
