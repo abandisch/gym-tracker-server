@@ -64,7 +64,7 @@ describe('# strengthTrackerRouter', function () {
               .send({programName: TEST_PROGRAM_NAME, dateStarted: TEST_PROGRAM_START_DATE})
               .set('Authorization', `Bearer ${createJwtToken(gymGoer.id)}`)
               .then(res => {
-                expect(res).status(204);
+                expect(res).status(201);
               });
           })
       });
