@@ -1,6 +1,8 @@
 language: node_js
 node_js: node
 cache: npm
+before_deploy:
+  - npm install -g now
 deploy:
   provider: script
   script: npm run deploy
