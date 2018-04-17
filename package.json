@@ -9,7 +9,7 @@
     "devstart": "nodemon server.js",
     "devtest": "nodemon --exec \"mocha --recursive --require babel-polyfill --require babel-register\"",
     "devconcurrent": "concurrently \"nodemon server.js\" \"webpack --watch\"",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public"
+    "deploy": "now -e NODE_ENV=production -e DATABASE_URL=@db-url --public --token $NOW_TOKEN && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN remove gym-tracker-server --safe -y"
   },
   "repository": {
     "type": "git",
