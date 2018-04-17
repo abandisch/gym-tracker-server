@@ -6,7 +6,7 @@ deploy:
   script: npm run deploy
   skip_cleanup: true
   on:
-    branch: master
+    repo: abandisch/gym-tracker-server
 services:
-  - mongodb
+- mongodb
 global: secure: "RJef+Akgu8xCgeHYjRJNLGOIOk6KI6hNdr69mHGbuzoyuOet1C/xpRrsRQ8hMWC/S6AwQ792IVaWovcb3N5zHF3eD+40PUskCzchexKjNVdz/5VAb10u3oABmuW+CX/bw+BhWzv9wwavXj2YvW8sfI2Yzk1JQ+vboXbS2uemHAs1hZq4RTfkuhDxIgTrl6YGZjb//JWGmGnFd0sZ0Vm75iiRcH2Mv55t9kWTwhRguofgPhNu6Mo3nbpLZq0iN61ZmTe11W6zRi7//GYMkcIAPIOKrLxidB6JV5gjgUPGzus4frGXErV56idJe8O0SK37FTc1KtjvZB6a5rnrLO93jhsfXYGHfExm6kPXxr6GZCQCDpv5F/aOPyMpzPn4O6rSrtdKFpQGMan9SLnYzlWA2LFQPogFwfzTPEKnpXss8+5a4DloJxzk90yoVlfstw+rkkV5T+uQmm720uxSoj3elEyffQvSTcxQtggdwlei7PzfiCD00V82CS01HrIAChStZqMCHxMHsD0B0MhQHfKJgBLdXmMySzNbCgJubVHmrTcmq+yQGgT15aVykfXFd3IKAepI01pMyFE+c1A8FK9k9kYkmJzYZQ2u/B3/O+z1a0HQxlwHlqV/zwJcU4de5Mz215xjnx/3/O7rTzUQrVjFXzQG1wcjjHj1+ATTMArB7ZA="
