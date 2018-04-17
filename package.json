@@ -1,7 +1,7 @@
 {
   "name": "gym-tracker-server",
   "version": "1.0.0",
-  "description": "Server for Gym Tracker",
+  "description": "Server for My Buddy Gymmie",
   "main": "server.js",
   "scripts": {
     "test": "mocha --recursive --require babel-polyfill --require babel-register --exit",
