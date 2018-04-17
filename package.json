@@ -46,5 +46,8 @@
     "faker": "^4.1.0",
     "mocha": "^5.0.0",
     "nyc": "^11.4.1"
+  },
+  "env": {
+    "DATABASE_URL": "@db-url"
   }
 }
