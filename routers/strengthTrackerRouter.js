@@ -26,7 +26,7 @@ router.put('/programs/:programId', [jsonParser, jwtAuth], (req, res) => {
 
   GymGoerModel
     .addStrengthTrackerProgram(gymGoerId, programId, programName, dateStarted)
-    .then(() => res.status(204).end());
+    .then(() => res.status(201).json({status: "ok"}));
 });
 
 // Add new set to exercise
