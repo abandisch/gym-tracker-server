@@ -27,7 +27,7 @@
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
